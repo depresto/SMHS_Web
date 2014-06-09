@@ -266,7 +266,7 @@
         <div id="DesignBy">
             Design by
             <a href="https://www.facebook.com/Wayne.Huang.g">Wayne Huang</a>&nbsp;&
-            <a href="https://www.facebook.com/reiko.ohara.75">CHONS</a>
+            <a href="https://www.facebook.com/chonstsai">CHONS</a>
         </div>
     </footer>
 
