@@ -1,0 +1,81 @@
+PHP上傳檔案的限制與修改
+Posted on 十月 10th, 2011 admin No comments
+PHP上傳檔案的限制與修改(1Byte=8bits)
+
+一、
+
+製作PHP網頁也很常用到的一個功能就是利用表單上傳檔案
+
+尤其是像自製相簿、影音的話
+
+檔案輕則1~5MB
+
+大的話20MB以上都有
+
+然而Apache本身是有限制檔案上傳的
+
+包括檔案大小、上傳時間是否會time out等等的
+
+所以在製作前要從php.ini來作修改，要修改的包括以下幾項
+
+max_execution_time
+
+max_input_time
+
+memory_limit
+
+post_max_size
+
+upload_max_filesize
+
+default_socket_timeout
+
+mysql.connect_timeout
+
+可以利用 Ctrl + F 在php.ini裡一項一項尋找
+
+1. max_execution_time
+
+Script執行時間上限(單位：秒)
+
+把數字改成 max_execution_time = 300
+
+2. max_input_time
+
+Script處理資料時間上限(單位：秒)
+
+把數字改成 max_input_time = 300
+
+3. memory_limit
+
+系統記憶體(注意，這個的值一定要設比下面兩項的值都大)
+
+把數字改成 memory_limit = 800M
+
+4. post_max_size
+
+使用表單的file欄位時是用POST傳值
+
+這個可設定POST發送時的容量
+
+把數字改成 post_max_size = 200M
+
+5. upload_max_filesize
+
+單次上傳檔案容量
+
+把數字改成 upload_max_filesize = 200M
+
+6. default_socket_timeout
+
+Socket無回應斷線時間(單位：秒)
+
+把數字改成 default_socket_timeout = 300
+
+7. mysql.connect_timeout
+
+無回應斷線時間(單位：秒；-1代表不斷線一直等)
+
+把數字改成 mysql.connect_timeout = -1
+
+這樣設定的話利用表單上傳大檔案就不怕出現錯誤了，當然數值可以自己改，不過基本上在一般功能來說這樣已經很夠了

@@ -1,0 +1,5 @@
+<?
+	mssql_close($linksb);
+	
+?>
+ 

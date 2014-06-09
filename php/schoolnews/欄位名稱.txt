@@ -1,0 +1,21 @@
+¸ê®Æ®w¡Gschoolnews
+
+
+TBadmin
+	usersno	5	
+	u_name	10
+	adminid	10
+	adminpw	10
+	
+
+TBnews
+	newsno	10
+	newstitle	50
+	class	5	
+	unit	10
+	newscontent	500
+	linkone	100
+	linktwo	100
+	newshot	5
+	newsdate
+	filesnum	5	

@@ -1,0 +1,12 @@
+a:link {  color: #0000ff; text-decoration: none}
+a:visited {  color: #0000ff; text-decoration: none}
+a:hover {  color: #0000ff; text-decoration: underline}
+.button {
+	BORDER-RIGHT: #c0c0c0 1px outset; BORDER-TOP: #c0c0c0 1px outset; BORDER-LEFT: #c0c0c0 1px outset; BORDER-BOTTOM: #c0c0c0 1px outset; BACKGROUND-COLOR: #ebebeb
+	}
+.bg3 {
+	BACKGROUND: #ffffff
+}
+.bg4 {
+	BACKGROUND: #E8F4F7
+}

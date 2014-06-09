@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>海星高中公告管理系統</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#form input").keypress(function(event){       
+                if (event.keyCode == 13) userlogin();
+            });
+        });
+        function userlogin(){
+            var username = $('#username').val();
+            var password = $('#password').val();
+            //判斷有無正確填寫
+            if (username == '' && password==''){
+                $('#error_message').text('請輸入帳號密碼');
+                $('#username').focus();
+                return false;
+            }else if(username ==''){
+                $('#error_message').text('請輸入帳號');
+                $('#username').focus();
+                return false;
+            }else if(password ==''){
+                $('#error_message').text('請輸入密碼');
+                $('#password').focus();
+                return false;
+            }
+            $.ajax({
+                url:'../php/login.php',
+                type:'POST',
+                data:'username='+username+'&password='+password,
+                beforeSend:
+                    function(){
+                        $('#loading').show();
+                    },
+                success:
+                    function(msg){
+                        if (msg=='success'){
+                            //登入成功
+                            console.log('login');
+                        }else{
+                            //登入失敗
+                            alert(msg);
+                        }
+                    },
+                error:
+                    function(msg){
+                        console.log('Ajax error!');
+                    },
+                complete:
+                    function(){
+                        $('#loading').hide();
+                    }
+            });
+        }
+    </script>
+    <style>
+        #loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <div id="login_form">
+        <div id="error_message"></div>
+        <form method="post" method="post" id="form">
+            <input placeholder="帳號" type="text" name="username" id="username"><br/>
+            <input placeholder="密碼" type="password" name="password" id="password"><br/>
+            <input type="button" name="login" id="login" value="登入" onclick="userlogin()">
+        </form>        
+    </div>
+    
+    <img id="loading" src="../images/loading.gif"/>
+</div>
+
+</body>
+</html>

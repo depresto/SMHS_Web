@@ -1,0 +1,331 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>首頁</title>
+    <style>
+        /*Pics Frame
+        =========================================================*/
+
+        #iframe_segment {
+            height: 100px;
+        }
+        iframe {
+            width: 100%;
+            height: 400px;
+        }
+        /*Main Content
+        =========================================================*/
+
+        /*Quote everyday*/
+        #quoteeveryday {
+            /* 16px * 250% 約 40px  */
+            font-size: 110%;
+            margin-top: 15px;
+            margin-left: 14%;
+            margin-right: 32%;
+        }
+        /*bulltin board*/
+        .bulletin_board {
+            margin-left: 13%;
+            margin-top: 10px;
+            width: 57%;
+            margin-bottom: 150px;
+        }
+        .bulletin_board .board_content {
+            margin: 2px;
+            position: relative;
+        }
+        .board_list {
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .arrow-up {
+            display: none;
+            width: 100px;
+            height: 30px;
+            margin-left: 75px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 10px -15px rgba(0, 0, 0, 0.5);
+        }
+        .arrow-up:after {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            /* IE 9 */
+            -moz-transform: rotate(45deg);
+            /* Firefox */
+            -webkit-transform: rotate(45deg);
+            /* Safari and Chrome */
+            -o-transform: rotate(45deg);
+            /* Opera */
+            top: 16px;
+            left: 25px;
+            box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.5);
+        }
+        .board_text {
+            display: none;
+            height: 320px;
+            position: relative;
+            -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .board_return {
+            display: none;
+            color: #fff;
+            margin-bottom: 2px;
+            text-align: center;
+            width: 100%;
+            height: 20px;
+            padding-top: 2px;
+            background: rgba(0, 0, 0, 0.9);
+        }
+        .board_title {
+            cursor: pointer;
+            position: relative;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            /* 16px * 88% 約 14px  */
+            font-size: 88%;
+            height: 250px;
+            width: 230px;
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .board_content div:hover > .graybar {
+            display: block;
+        }
+        .board_content div div:hover > .board_title {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .board_content .graybar {
+            display: none;
+            width: 100%;
+            height: 25px;
+            padding-right: 10px;
+            padding-top: 3px;
+            position: absolute;
+            left: 0;
+            top: 225px;
+            background: rgba(0, 0, 0, 0.7);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: right;
+        }
+        .board_content img {
+            width: 100%;
+            height: 150px;
+            background: url(../images/example.jpg);
+            background-size: 100% 150px;
+        }
+        .board_content #text {
+            position: relative;
+            padding: 5px 10px 0px 10px;
+            overflow: hidden;
+            line-height: 1.5em;
+            height: 6em;
+        }
+        .board_content #text::after {
+            content: "...";
+        }
+        .sidebar {
+            top: 595px;
+        }
+    </style>
+    <script type="text/javascript">
+        //Bulletin board click
+        var click_check = null;
+        $(".board_title").click(function () {
+            if ($(this).siblings(".board_text").css("display") == "block") {
+                $(this).siblings(".board_text").slideUp(300);
+                $(this).siblings(".board_return").css("display", "none");
+                $(this).siblings(".arrow-up").css("display", "none");
+                click_check = null;
+            } else {
+                if (click_check != null) {
+                    click_check.slideUp(300);
+                    click_check.siblings(".board_return").css("display", "none");
+                    click_check.siblings(".arrow-up").css("display", "none");
+                    $('html, body').animate({
+                        scrollTop: $(this).offset().top - h_text + 155
+                    }, 1500);
+                } else {
+                    $('html, body').animate({
+                        scrollTop: $(this).offset().top + 155
+                    }, 1500);
+                }
+                $(this).siblings(".board_text").slideDown(300);
+                $(this).siblings(".board_return").css("display", "block");
+                $(this).siblings(".arrow-up").css("display", "block");
+
+                click_check = $(this).siblings(".board_text");
+            }
+        });
+        $(".board_return").click(
+            function () {
+                click_check.slideUp(300);
+                click_check.siblings(".board_return").css("display", "none");
+                click_check.siblings(".arrow-up").css("display", "none");
+                click_check = null;
+            }
+        );
+        //Search
+        function titleSearch(){
+            $.ajax({
+                type:"GET",
+                url:"php/search.php",
+                data:'s='+$("#s").val(),
+                error:
+                    function(){
+                        $('#process').text('Ajax Error!').fadeIn(1000).delay(2000).fadeOut(1000);
+                    },
+                success:
+                    function(data){
+                        $('#process').text('Success!').fadeIn(1000).delay(2000).fadeOut(1000);
+                    }
+            });
+        }
+        
+        $(".input input").keypress(function(event){ 
+            if (event.keyCode == 13){
+                titleSearch();
+                event.preventDefault();
+            }
+        });
+    </script>
+</head>
+
+<body>
+	<div id="top_segment"></div>
+    
+    <div class="content">
+        <div class="background_image">
+        </div>
+
+        <div id="iframe_segment"></div>
+        <iframe id="frame_pics" src="pics.html" marginwidth="0" marginheight="0" align="top" scrolling="no" frameborder="0"></iframe>
+        
+        <marquee id="quoteeveryday" onMouseOver="this.stop()" onMouseOut="this.start()">我有一個請求，我今天在當689跳針的時候，你不能打我臉。你如果打我臉，我就跟你拚命。--689好像有這麼說</marquee>
+
+        <div  class="bulletin_board">
+            <form id="searchbox" method="post">
+                <fieldset>
+                    <div class="input">
+                        <input type="search" id="s" placeholder="站內搜尋" value required="required" />
+                    </div>
+                    <input type="button" id="searchSubmit" value="" onclick="titleSearch()" />
+                </fieldset>
+            </form>
+            <div class="board_content">
+                <div class="board_list">
+                    <div class="board_title">
+                        <img src="images/photo/1.JPG"></img>
+                        <p id="text">爸標一畫時預像、日燈還其人；起臺子明導女要在的子、點死質國是就何新機做經所廣知不灣手隨業分這地對水身什真……什有們兒南神改原了是也市真向他火計？
+                        </p>
+                        <div class="graybar">2014/1/4</div>
+                    </div>
+                    <div class="arrow-up"></div>
+                    <div class="board_text"></div>
+                    <div class="board_return">^</div>
+                </div>
+                <div class="board_list">
+                    <div class="board_title">
+                        <img src="images/photo/2.JPG"></img>
+                        <p id="text">老這樂絕法；黑料司護以生才指的建大來空慢以天沒因達友取他而。如為顧市集有過麼；靜業前升得人了次力不魚主，設這則紀友、流果成生選愛有紙電人否爾媽玩，難死去情，我知的中，司經表訴發許打飯門好受笑事興細。
+                        </p>
+                        <div class="graybar"></div>
+                    </div>
+                    <div class="arrow-up"></div>
+                    <div class="board_text"></div>
+                    <div class="board_return">^</div>
+                </div>
+                <div class="board_list">
+                    <div class="board_title">
+                        <img src="images/photo/3.JPG"></img>
+                        <p id="text">石至公印賽數打人回回候樣……足小可會公兒長形前我有角較司！選上果會者上人意不在得山麼區天洲兩想整麼屋離明、的西的絕費工了總。醫成以非一親該反朋還可！便了國。持轉臺說可大事這作利金適。他為給、場先至？出意度評改頭現府生……看如也學好由親，臺東獨人是角收新如。
+                        </p>
+                        <div class="graybar"></div>
+                    </div>
+                    <div class="arrow-up"></div>
+                    <div class="board_text"></div>
+                    <div class="board_return">^</div>
+                </div>
+                <div class="board_list">
+                    <div class="board_title">
+                        <img src="images/photo/4.JPG"></img>
+                        <p id="text">裝化走禮來出從我一信優再。上弟十言出仍：愛念以？紅壓的文治因強：女調學去風同。打的親險西灣天動為許活第這速公保定只家……過為說資？國為的？風事活、市長其變元物親部你能龍神使同聞的未葉女一至水足同感也；下氣個笑分登流是了、他界雖有兒然及近你；達水決請則先好下前在打我裡我分臉上除。
+                        </p>
+                        <div class="graybar"></div>
+                    </div>
+                    <div class="arrow-up"></div>
+                    <div class="board_text"></div>
+                    <div class="board_return">^</div>
+                </div>
+                <div class="board_list">
+                    <div class="board_title">
+                        <img src="images/photo/5.JPG"></img>
+                        <p id="text">實機起要落、開輪酒苦到，福油林素在上語得交另縣毒體，使養來主且現可：維老廣選助裡，地高者好親而服發件。去金景足定，創變好止臺些他笑孩；學有府，的不狀查。都小開是花人生重腦代說早對在到半德建雄小來以城。任當資當物體走，數院哥推要越間得知父；府整中便母死不學好三好無紀信己著。
+                        </p>
+                        <div class="graybar"></div>
+                    </div>
+                    <div class="arrow-up"></div>
+                    <div class="board_text"></div>
+                    <div class="board_return">^</div>
+                </div>
+                <div class="board_list">
+                    <div class="board_title">
+                        <img src="images/photo/6.JPG"></img>
+                        <p id="text">歷正平場外工門家客能能。國而大廠的動度又性評見晚升條在優的爸：驗覺簡出心動上來，重在看青告有野平，一兩國一；重裡是歡相公。排加因包邊時告燈心國家外我；沒工打時上去臺；比做不率元一過裡一老會離個立；的十人、心分專自而大市還決會長要地才！獨不同機黨還。
+                        </p>
+                        <div class="graybar"></div>
+
+                    </div>
+                    <div class="arrow-up"></div>
+                    <div class="board_text"></div>
+                    <div class="board_return">^</div>
+                </div>
+                以下是個無限的概念
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul id="sidebar_content">
+                <li>
+                    <a class="text">招生資訊</a>
+                </li>
+                <li>
+                    <a class="text">升學榜單</a>
+                </li>
+                <li>
+                    <a class="text">校車資訊</a>
+                </li>
+                <li>
+                    <a class="text">校行事曆</a>
+                </li>
+                <li>
+                    <a class="text">洽詢專線</a>
+                </li>
+                <li>
+                    <a class="text" href="http://www.6law.idv.tw/6law/law3/%E6%95%99%E8%82%B2%E9%83%A8%E4%B8%BB%E7%AE%A1%E9%AB%98%E7%B4%9A%E4%B8%AD%E7%AD%89%E4%BB%A5%E4%B8%8B%E5%AD%B8%E6%A0%A1%E8%99%95%E7%90%86%E5%AD%B8%E7%94%9F%E7%94%B3%E8%A8%B4%E6%A1%88%E4%BB%B6%E5%AF%A6%E6%96%BD%E8%BE%A6%E6%B3%95.htm">學生申訴資訊</a>
+                </li>
+            </ul>
+            <ul id="sidebar_title">
+                <li>
+                    <a href="http://203.71.0.13/online/information.asp" target="_blank">學生記錄系統</a>
+                </li>
+                <li>
+                    <a href="http://203.71.0.13/sceval/" target="_blank">學生評量系統</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
